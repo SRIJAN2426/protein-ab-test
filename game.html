@@ -1,248 +1,169 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<title>FuelForge Reflex Challenge</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#111;
-color:white;
-text-align:center;
-}
-
-h1{
-margin-top:30px;
-}
-
-#gameArea{
-width:700px;
-height:400px;
-margin:auto;
-border:3px solid white;
-position:relative;
-overflow:hidden;
-margin-top:20px;
-}
-
-.target{
-width:70px;
-height:70px;
-position:absolute;
-cursor:pointer;
-transition:transform 0.2s;
-}
-
-.target:hover{
-transform:scale(1.2);
-}
-
-#score,#timer{
-font-size:22px;
-margin-top:10px;
-}
-
-#leaderboard{
-margin-top:30px;
-}
-
-</style>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Lucky Egg — FuelForge Game</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{font-family:Inter,Arial,sans-serif;background:#111;color:#fff;margin:0;display:flex;flex-direction:column;align-items:center}
+    .game-wrap{max-width:720px;width:100%;padding:20px}
+    h1{margin-top:20px;font-size:26px;text-align:center}
+    .sub{color:#ddd;margin-bottom:8px;text-align:center}
+    #eggArea{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+    .egg{background:linear-gradient(180deg,#fff,#f0f0f0);height:110px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;box-shadow:0 8px 24px rgba(0,0,0,0.35);transform-origin:center;transition:transform 0.25s}
+    .egg:hover{transform:translateY(-6px)}
+    .egg img{max-height:72px}
+    .attempts{margin-top:12px;color:#eee}
+    .controls{margin-top:18px;display:flex;gap:10px;justify-content:center}
+    .btn{background:var(--accent,#e53935);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+    .result{margin-top:16px;color:#fff}
+    .crack{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);border-radius:12px;color:#fff;font-weight:700}
+    .small{font-size:14px;color:#ddd}
+    @media(max-width:520px){#eggArea{grid-template-columns:repeat(2,1fr)}.egg{height:95px}}
+  </style>
 </head>
-
 <body>
+  <div class="game-wrap">
+    <h1>Lucky Egg — Crack & Win</h1>
+    <div class="sub">You have <strong>3 attempts</strong> to crack eggs. If the cracked egg contains a protein pack, you win <strong>12.5%</strong> discount per win.</div>
+    <div id="eggArea"></div>
 
-<h1>FuelForge Reflex Challenge</h1>
+    <div class="attempts" id="attemptsTxt">Attempts left: 3</div>
+    <div class="controls">
+      <button id="resetBtn" class="btn">Restart</button>
+      <button id="backBtn" class="btn" style="background:#444">Back to product</button>
+    </div>
 
-<p>Hit the moving protein to unlock 40% discount</p>
+    <div class="result" id="resultTxt"></div>
+    <div class="small" style="margin-top:8px">Leaderboard and your name are saved locally (demo).</div>
+  </div>
 
-<div id="timer">Time: 60</div>
-
-<div id="score">Score: 0</div>
-
-<div id="gameArea"></div>
-
-<div id="leaderboard">
-<h2>Leaderboard</h2>
-<ul id="scores"></ul>
-</div>
-
-
-<!-- SOUND EFFECTS -->
-
-<audio id="hitSound">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
-</audio>
-
-<audio id="missSound">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c9a5c1e33.mp3">
-</audio>
-
+  <!-- Sounds -->
+  <audio id="soundCrack"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"></audio>
+  <audio id="soundWin"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c9a5c1e33.mp3"></audio>
 
 <script>
-
-let score=0
-let time=60
-
-const gameArea=document.getElementById("gameArea")
-
-const hitSound=document.getElementById("hitSound")
-const missSound=document.getElementById("missSound")
-
-
-// SPAWN MOVING TARGET
-
-function spawnTarget(){
-
-let target=document.createElement("img")
-
-target.src="protein.png"
-
-target.className="target"
-
-target.style.left=Math.random()*630+"px"
-target.style.top=Math.random()*330+"px"
-
-
-target.onclick=function(){
-
-score++
-
-hitSound.play()
-
-document.getElementById("score").innerText="Score: "+score
-
-target.remove()
-
-spawnTarget()
-
-}
-
-
-// MISS CLICK
-
-gameArea.onclick=function(e){
-
-if(e.target!==target){
-
-missSound.play()
-
-}
-
-}
-
-gameArea.appendChild(target)
-
-}
-
-
-// INITIAL TARGET
-
-spawnTarget()
-
-
-// MOVE TARGET EVERY SECOND
-
-setInterval(function(){
-
-let target=document.querySelector(".target")
-
-if(target){
-
-target.style.left=Math.random()*630+"px"
-target.style.top=Math.random()*330+"px"
-
-}
-
-},1000)
-
-
-// TIMER
-
-let timer=setInterval(function(){
-
-time--
-
-document.getElementById("timer").innerText="Time: "+time
-
-if(time<=0){
-
-clearInterval(timer)
-
-endGame()
-
-}
-
-},1000)
-
-
-
-// GAME END
-
-function endGame(){
-
-if(score>=10){
-
-alert("You unlocked 40% discount!")
-
-localStorage.setItem("game_discount","40")
-
-}
-
-saveScore(score)
-
-window.location.href="index.html"
-
-}
-
-
-
-// LEADERBOARD
-
-function saveScore(newScore){
-
-let scores=JSON.parse(localStorage.getItem("leaderboard"))||[]
-
-scores.push(newScore)
-
-scores.sort((a,b)=>b-a)
-
-scores=scores.slice(0,5)
-
-localStorage.setItem("leaderboard",JSON.stringify(scores))
-
-renderLeaderboard()
-
-}
-
-
-function renderLeaderboard(){
-
-let scores=JSON.parse(localStorage.getItem("leaderboard"))||[]
-
-let list=document.getElementById("scores")
-
-list.innerHTML=""
-
-scores.forEach(s=>{
-
-let li=document.createElement("li")
-
-li.innerText=s
-
-list.appendChild(li)
-
-})
-
-}
-
-renderLeaderboard()
-
+  // Game variables
+  const eggArea = document.getElementById('eggArea');
+  const attemptsTxt = document.getElementById('attemptsTxt');
+  const resultTxt = document.getElementById('resultTxt');
+  const resetBtn = document.getElementById('resetBtn');
+  const backBtn = document.getElementById('backBtn');
+  const soundCrack = document.getElementById('soundCrack');
+  const soundWin = document.getElementById('soundWin');
+
+  let attempts = 3;
+  let wins = 0;
+  const eggsTotal = 6;
+  let winningSlots = []; // indices that contain protein
+  let opened = new Set();
+
+  function initGame() {
+    attempts = 3;
+    wins = 0;
+    opened.clear();
+    resultTxt.textContent = '';
+    // Choose winning slots: make 2 or 3 winners so users have chances
+    const possibleWinners = Math.random() < 0.6 ? 2 : 3; // sometimes 3 winners
+    winningSlots = [];
+    while (winningSlots.length < possibleWinners) {
+      const n = Math.floor(Math.random()*eggsTotal);
+      if (!winningSlots.includes(n)) winningSlots.push(n);
+    }
+    renderEggs();
+    updateAttempts();
+  }
+
+  function renderEggs() {
+    eggArea.innerHTML = '';
+    for (let i=0;i<eggsTotal;i++){
+      const e = document.createElement('div');
+      e.className = 'egg';
+      e.dataset.index = i;
+      const img = document.createElement('img');
+      img.src = 'https://cdn-icons-png.flaticon.com/512/727/727399.png'; // egg icon placeholder
+      img.alt = 'egg';
+      e.appendChild(img);
+      e.onclick = onEggClick;
+      eggArea.appendChild(e);
+    }
+  }
+
+  function onEggClick(ev) {
+    const idx = Number(ev.currentTarget.dataset.index);
+    if (opened.has(idx)) return;
+    if (attempts <= 0) return;
+    opened.add(idx);
+    attempts--;
+    const isWin = winningSlots.includes(idx);
+    // crack animation - overlay with result
+    const overlay = document.createElement('div');
+    overlay.className = 'crack';
+    overlay.style.fontSize='14px';
+    overlay.innerText = 'Cracking...';
+    ev.currentTarget.appendChild(overlay);
+    // play sound
+    soundCrack && soundCrack.play();
+    // animate delay before reveal
+    setTimeout(()=> {
+      overlay.innerHTML = '';
+      if (isWin) {
+        const img = document.createElement('img');
+        img.src = 'protein.png'; // prize
+        img.style.maxHeight='72px';
+        overlay.appendChild(img);
+        overlay.style.background = 'rgba(0,128,0,0.85)';
+        wins++;
+        soundWin && soundWin.play();
+      } else {
+        overlay.textContent = 'Empty';
+        overlay.style.background = 'rgba(60,60,60,0.85)';
+      }
+      updateAttempts();
+      // if attempts over, finalize
+      if (attempts <= 0) {
+        endGame();
+      }
+    }, 700);
+  }
+
+  function updateAttempts() {
+    attemptsTxt.textContent = `Attempts left: ${attempts}`;
+  }
+
+  function endGame() {
+    const discountPerWin = 12.5;
+    const totalDiscount = Math.round(wins * discountPerWin * 10) / 10; // one decimal
+    // Save discount percentage to storage
+    if (totalDiscount > 0) {
+      localStorage.setItem('game_discount_pct', String(totalDiscount));
+      resultTxt.innerHTML = `<strong>Congrats!</strong> You cracked ${wins} winning egg(s). Discount: ${totalDiscount}% applied. Returning to product...`;
+    } else {
+      localStorage.setItem('game_discount_pct', '0');
+      resultTxt.innerHTML = `<strong>Try again.</strong> No winning eggs this run. Returning to product...`;
+    }
+
+    // Save leaderboard entry
+    const name = localStorage.getItem('ff_name') || 'Guest';
+    const entry = { name, wins, discount: totalDiscount, date: new Date().toISOString() };
+    const lb = JSON.parse(localStorage.getItem('ff_leaderboard') || '[]');
+    lb.push(entry);
+    lb.sort((a,b) => (b.discount - a.discount) || (b.wins - a.wins) || (new Date(b.date) - new Date(a.date)));
+    localStorage.setItem('ff_leaderboard', JSON.stringify(lb.slice(0,10)));
+
+    // small delay then return to index
+    setTimeout(()=> {
+      window.location.href = 'index.html';
+    }, 1400);
+  }
+
+  // buttons
+  resetBtn.onclick = initGame;
+  backBtn.onclick = () => window.location.href='index.html';
+
+  // start
+  initGame();
 </script>
-
 </body>
-
 </html>
