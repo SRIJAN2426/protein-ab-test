@@ -2,20 +2,51 @@
 <html>
 
 <head>
-<title>Unlock Discount</title>
+
+<title>FuelForge Reflex Challenge</title>
 
 <style>
 
 body{
 font-family:Arial;
+background:#111;
+color:white;
 text-align:center;
-margin-top:100px;
 }
 
-button{
-padding:20px;
-font-size:20px;
+h1{
+margin-top:30px;
+}
+
+#gameArea{
+width:700px;
+height:400px;
+margin:auto;
+border:3px solid white;
+position:relative;
+overflow:hidden;
+margin-top:20px;
+}
+
+.target{
+width:70px;
+height:70px;
+position:absolute;
 cursor:pointer;
+transition:transform 0.2s;
+}
+
+.target:hover{
+transform:scale(1.2);
+}
+
+#score,#timer{
+font-size:22px;
+margin-top:10px;
+}
+
+#leaderboard{
+margin-top:30px;
 }
 
 </style>
@@ -24,21 +55,134 @@ cursor:pointer;
 
 <body>
 
-<h1>Click 10 Times in 60 Seconds</h1>
+<h1>FuelForge Reflex Challenge</h1>
 
-<h2 id="score">Score: 0</h2>
+<p>Hit the moving protein to unlock 40% discount</p>
 
-<button onclick="clickGame()">Click Fast!</button>
+<div id="timer">Time: 60</div>
+
+<div id="score">Score: 0</div>
+
+<div id="gameArea"></div>
+
+<div id="leaderboard">
+<h2>Leaderboard</h2>
+<ul id="scores"></ul>
+</div>
+
+
+<!-- SOUND EFFECTS -->
+
+<audio id="hitSound">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
+</audio>
+
+<audio id="missSound">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c9a5c1e33.mp3">
+</audio>
+
 
 <script>
 
 let score=0
+let time=60
 
-function clickGame(){
+const gameArea=document.getElementById("gameArea")
+
+const hitSound=document.getElementById("hitSound")
+const missSound=document.getElementById("missSound")
+
+
+// SPAWN MOVING TARGET
+
+function spawnTarget(){
+
+let target=document.createElement("img")
+
+target.src="protein.png"
+
+target.className="target"
+
+target.style.left=Math.random()*630+"px"
+target.style.top=Math.random()*330+"px"
+
+
+target.onclick=function(){
 
 score++
 
+hitSound.play()
+
 document.getElementById("score").innerText="Score: "+score
+
+target.remove()
+
+spawnTarget()
+
+}
+
+
+// MISS CLICK
+
+gameArea.onclick=function(e){
+
+if(e.target!==target){
+
+missSound.play()
+
+}
+
+}
+
+gameArea.appendChild(target)
+
+}
+
+
+// INITIAL TARGET
+
+spawnTarget()
+
+
+// MOVE TARGET EVERY SECOND
+
+setInterval(function(){
+
+let target=document.querySelector(".target")
+
+if(target){
+
+target.style.left=Math.random()*630+"px"
+target.style.top=Math.random()*330+"px"
+
+}
+
+},1000)
+
+
+// TIMER
+
+let timer=setInterval(function(){
+
+time--
+
+document.getElementById("timer").innerText="Time: "+time
+
+if(time<=0){
+
+clearInterval(timer)
+
+endGame()
+
+}
+
+},1000)
+
+
+
+// GAME END
+
+function endGame(){
 
 if(score>=10){
 
@@ -46,19 +190,56 @@ alert("You unlocked 40% discount!")
 
 localStorage.setItem("game_discount","40")
 
+}
+
+saveScore(score)
+
 window.location.href="index.html"
 
 }
 
+
+
+// LEADERBOARD
+
+function saveScore(newScore){
+
+let scores=JSON.parse(localStorage.getItem("leaderboard"))||[]
+
+scores.push(newScore)
+
+scores.sort((a,b)=>b-a)
+
+scores=scores.slice(0,5)
+
+localStorage.setItem("leaderboard",JSON.stringify(scores))
+
+renderLeaderboard()
+
 }
 
-setTimeout(function(){
 
-alert("Time Up!")
+function renderLeaderboard(){
 
-window.location.href="index.html"
+let scores=JSON.parse(localStorage.getItem("leaderboard"))||[]
 
-},60000)
+let list=document.getElementById("scores")
+
+list.innerHTML=""
+
+scores.forEach(s=>{
+
+let li=document.createElement("li")
+
+li.innerText=s
+
+list.appendChild(li)
+
+})
+
+}
+
+renderLeaderboard()
 
 </script>
 
