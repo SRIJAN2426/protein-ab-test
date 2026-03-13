@@ -17,40 +17,61 @@ return variant
 }
 
 
-// Get the assigned variant
+// Get variant
 const variant = assignVariant()
 
+console.log("User Variant:", variant)
 
-// Track which variant user saw (Google Analytics event)
 
+// Track experiment view
 gtag('event','experiment_view',{
-experiment_name:'price_ab_test',
-variant: variant
-});
+experiment_name:'discount_test',
+variant:variant
+})
 
 
-// Apply variant changes to the page
+// Apply UI changes
 
-if(variant === "B"){
+document.addEventListener("DOMContentLoaded", function(){
 
-document.querySelector(".discount").innerText = "LIMITED OFFER"
+if(variant === "A"){
 
-document.querySelector(".new-price").innerText = "₹1999"
-
-document.querySelector(".mobile-price").innerText = "₹1999"
+document.querySelector(".discount").innerText="22% OFF"
+document.querySelector(".new-price").innerText="₹2249"
 
 }
 
+if(variant === "B"){
+
+document.querySelector(".discount").innerText="Play Game to Unlock 40% OFF"
+
+let gameButton=document.createElement("button")
+
+gameButton.innerText="Play 60 Second Game"
+
+gameButton.className="cta"
+
+gameButton.onclick=function(){
+
+window.location.href="game.html"
+
+}
+
+document.querySelector(".product-left").appendChild(gameButton)
+
+}
+
+})
 
 
-// Add to cart function with analytics tracking
+// Track add to cart
 
 function addToCart(){
 
 gtag('event','add_to_cart',{
 product:'FuelForge Whey Protein',
-variant: variant
-});
+variant:variant
+})
 
 alert("Product added to cart")
 
