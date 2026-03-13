@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Unlock Discount</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+margin-top:100px;
+}
+
+button{
+padding:20px;
+font-size:20px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Click 10 Times in 60 Seconds</h1>
+
+<h2 id="score">Score: 0</h2>
+
+<button onclick="clickGame()">Click Fast!</button>
+
+<script>
+
+let score=0
+
+function clickGame(){
+
+score++
+
+document.getElementById("score").innerText="Score: "+score
+
+if(score>=10){
+
+alert("You unlocked 40% discount!")
+
+localStorage.setItem("game_discount","40")
+
+window.location.href="index.html"
+
+}
+
+}
+
+setTimeout(function(){
+
+alert("Time Up!")
+
+window.location.href="index.html"
+
+},60000)
+
+</script>
+
+</body>
+
+</html>
