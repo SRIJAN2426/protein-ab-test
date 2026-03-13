@@ -1,45 +1,48 @@
-// USERNAME
+// =========================
+// USERNAME SYSTEM
+// =========================
 
-function initUser(){
+document.addEventListener("DOMContentLoaded", function () {
 
-let name=localStorage.getItem("ff_name")
+let name = localStorage.getItem("ff_name")
 
 if(name){
 
-document.getElementById("accountBtn").innerHTML=
+document.getElementById("accountBtn").innerHTML =
 `<i class="fa-regular fa-user"></i> ${name}`
 
-return
-
-}
+}else{
 
 document.getElementById("usernameModal").classList.remove("hidden")
 
+}
+
+})
+
 document.getElementById("saveNameBtn").onclick=function(){
 
-let v=document.getElementById("usernameInput").value.trim()
+let name=document.getElementById("usernameInput").value.trim()
 
-if(!v)return
+if(!name)return
 
-localStorage.setItem("ff_name",v)
+localStorage.setItem("ff_name",name)
 
-document.getElementById("accountBtn").innerHTML=
-`<i class="fa-regular fa-user"></i> ${v}`
+document.getElementById("accountBtn").innerHTML =
+`<i class="fa-regular fa-user"></i> ${name}`
 
 document.getElementById("usernameModal").classList.add("hidden")
 
 }
 
-}
-
-document.addEventListener("DOMContentLoaded",initUser)
 
 
-// CART
+// =========================
+// CART SYSTEM
+// =========================
 
 function getCart(){
 
-return JSON.parse(localStorage.getItem("cart")||"[]")
+return JSON.parse(localStorage.getItem("ff_cart")||"[]")
 
 }
 
@@ -49,22 +52,42 @@ document.getElementById("cartCount").innerText=getCart().length
 
 }
 
+updateCart()
+
 document.getElementById("addToCartBtn").onclick=function(){
 
 let cart=getCart()
 
-cart.push({product:"FuelForge Protein"})
+cart.push({
+title:"FuelForge Protein",
+price:"₹2249"
+})
 
-localStorage.setItem("cart",JSON.stringify(cart))
+localStorage.setItem("ff_cart",JSON.stringify(cart))
 
 updateCart()
 
-alert("Added to demo cart. This is an experiment site.")
+alert("Added to demo cart. This site is an experiment.")
 
 }
 
 
+
+// =========================
+// CART PAGE LINK
+// =========================
+
+document.getElementById("cartBtn").onclick=function(){
+
+window.location.href="cart.html"
+
+}
+
+
+
+// =========================
 // GAME BUTTON
+// =========================
 
 document.getElementById("playGameBtn").onclick=function(){
 
@@ -81,17 +104,22 @@ window.location.href="game.html"
 }
 
 
+
+// =========================
 // LEADERBOARD
+// =========================
 
 function renderLeaderboard(){
 
 let data=JSON.parse(localStorage.getItem("leaderboard")||"[]")
 
+data.sort((a,b)=>b.discount-a.discount)
+
 const container=document.getElementById("leaderboardList")
 
 container.innerHTML=""
 
-data.forEach(p=>{
+data.slice(0,10).forEach(p=>{
 
 let row=document.createElement("div")
 
@@ -110,4 +138,22 @@ container.appendChild(row)
 
 renderLeaderboard()
 
-updateCart()
+
+
+// =========================
+// APPLY GAME DISCOUNT
+// =========================
+
+let discount=localStorage.getItem("game_discount_pct")
+
+if(discount){
+
+let price=2249
+
+let newPrice=Math.round(price*(1-discount/100))
+
+document.getElementById("price").innerText=`₹${newPrice}`
+
+document.getElementById("discount").innerText=`${discount}% GAME DISCOUNT`
+
+}
