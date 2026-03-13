@@ -1,149 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FuelForge — Protein Experiment</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Optional: Google Analytics snippet if you have a measurement id (replace G-XXXX) -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
-  -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FuelForge Protein Experiment</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="logo">FUELFORGE</div>
+<header class="header">
 
-    <nav class="top-nav">
-      <button id="shopAllBtn" class="nav-btn">Shop All</button>
-    </nav>
+<div class="logo">FUELFORGE</div>
 
-    <div class="icons">
-      <button id="accountBtn" class="icon-btn" title="Account"><i class="fa-regular fa-user"></i></button>
-      <button id="cartBtn" class="icon-btn" title="Cart"><i class="fa-solid fa-bag-shopping"></i><span id="cartCount" class="cart-count">0</span></button>
-    </div>
-  </div>
+<div class="nav">
+
+<button id="shopAllBtn">Shop All</button>
+
+<div class="icons">
+
+<button id="accountBtn">
+<i class="fa-regular fa-user"></i>
+</button>
+
+<button id="cartBtn">
+<i class="fa-solid fa-bag-shopping"></i>
+<span id="cartCount">0</span>
+</button>
+
+</div>
+
+</div>
+
 </header>
 
-<main class="container">
 
-  <!-- Product / hero -->
-  <section class="product">
-    <div class="product-left">
-      <div class="breadcrumbs">HOME › PROTEIN</div>
-      <h1 class="product-title">Chocolate — Fermented Protein</h1>
+<section class="product">
 
-      <div class="price-row">
-        <div class="price-left">
-          <div class="new-price" id="newPrice">₹2,249</div>
-          <div class="old-price" id="oldPrice">₹2,899</div>
-          <div class="discount" id="discountTxt">22% OFF</div>
-        </div>
-        <div class="rating">
-          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-          <span class="reviews">1,189 Reviews</span>
-        </div>
-      </div>
+<div class="product-left">
 
-      <p class="description">Rich chocolate fermented protein designed for smooth digestion, higher absorption, and clean daily nutrition.</p>
+<h1>Chocolate Fermented Protein</h1>
 
-      <div id="actionArea" class="action-area">
-        <button class="cta" id="addToCartBtn">ADD TO CART</button>
-        <!-- Game button injected for Variant B -->
-      </div>
-    </div>
+<div class="price-row">
 
-    <div class="product-right">
-      <img src="protein.png" alt="protein bag" class="product-image" />
-    </div>
-  </section>
+<span class="new-price" id="price">₹2249</span>
 
-  <!-- Dashboard / Leaderboard -->
-  <section class="dashboard">
-    <div class="dash-left">
-      <h2>Experiment Dashboard</h2>
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-title">Your Variant</div>
-          <div id="userVariant" class="metric-value">—</div>
-        </div>
-        <div class="metric">
-          <div class="metric-title">Your Discount</div>
-          <div id="userDiscount" class="metric-value">0%</div>
-        </div>
-        <div class="metric">
-          <div class="metric-title">Cart Items</div>
-          <div id="userCartCount" class="metric-value">0</div>
-        </div>
-      </div>
-    </div>
+<span class="old-price">₹2899</span>
 
-    <div class="dash-right">
-      <h2>Leaderboard</h2>
-      <ol id="leaderboardList" class="leaderboard-list">
-        <!-- filled by script -->
-      </ol>
-    </div>
-  </section>
+<span class="discount" id="discount">22% OFF</span>
 
-  <!-- Benefits -->
-  <section class="benefits">
-    <h2>Why Choose FuelForge?</h2>
-    <div class="benefit-grid">
-      <div class="benefit"><i class="fa-solid fa-leaf"></i><h3>Plant Fermented</h3><p>Advanced fermentation improves nutrient absorption.</p></div>
-      <div class="benefit"><i class="fa-solid fa-bolt"></i><h3>High Performance</h3><p>Supports recovery and energy.</p></div>
-      <div class="benefit"><i class="fa-solid fa-heart"></i><h3>Clean Ingredients</h3><p>No fillers, no artificial sweeteners.</p></div>
-      <div class="benefit"><i class="fa-solid fa-dumbbell"></i><h3>Daily Strength</h3><p>Designed for athletes and active lifestyles.</p></div>
-    </div>
-  </section>
-
-  <!-- Reviews -->
-  <section class="reviews">
-    <h2>What Customers Say</h2>
-    <div class="review-grid">
-      <div class="review"><p>"Smooth taste and great recovery."</p><h4>— Rahul S.</h4></div>
-      <div class="review"><p>"Digests better than whey. My daily protein."</p><h4>— Priya M.</h4></div>
-      <div class="review"><p>"Clean ingredients and strong chocolate flavor."</p><h4>— Arjun K.</h4></div>
-    </div>
-  </section>
-
-</main>
-
-<!-- Sticky mobile buy bar -->
-<div class="mobile-buy" id="mobileBuy">
-  <div class="mobile-buy-left">
-    <div class="mobile-price" id="mobilePrice">₹2,249</div>
-    <div class="mobile-disc" id="mobileDisc">22% OFF</div>
-  </div>
-  <div class="mobile-buy-right">
-    <button class="mobile-cta" id="mobileAddBtn">Buy Now</button>
-  </div>
 </div>
 
-<!-- Username modal -->
+<p>
+Clean fermented protein designed for better digestion and daily performance.
+</p>
+
+<div class="action-area">
+
+<button id="addToCartBtn" class="cta">
+Add To Cart
+</button>
+
+<button id="playGameBtn" class="cta secondary">
+Play Lucky Egg (3 chances)
+</button>
+
+</div>
+
+</div>
+
+
+<div class="product-right">
+
+<img src="protein.png" class="product-image">
+
+</div>
+
+</section>
+
+
+
+<section class="leaderboard-section">
+
+<h2>🏆 Top Players</h2>
+
+<div id="leaderboardList" class="leaderboard"></div>
+
+</section>
+
+
 <div id="usernameModal" class="modal hidden">
-  <div class="modal-inner">
-    <h3>Welcome</h3>
-    <p>Enter a display name for the leaderboard</p>
-    <input id="usernameInput" placeholder="Your name" />
-    <div class="modal-actions">
-      <button id="saveNameBtn" class="btn">Save</button>
-    </div>
-  </div>
+
+<div class="modal-inner">
+
+<h3>Welcome</h3>
+
+<p>Enter a display name for the leaderboard</p>
+
+<input id="usernameInput" placeholder="Your name">
+
+<button id="saveNameBtn">Save</button>
+
 </div>
 
-<!-- Simple toast area -->
-<div id="toast" class="toast hidden"></div>
+</div>
+
 
 <script src="script.js"></script>
+
 </body>
 </html>
