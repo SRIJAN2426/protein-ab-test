@@ -1,64 +1,85 @@
 // USERNAME
 
-let name=localStorage.getItem("username")
+let username=localStorage.getItem("username")
 
-if(!name){
+if(!username){
 
-name=prompt("Enter your name")
+username=prompt("Enter your name")
 
-localStorage.setItem("username",name)
-
-}
-
-document.getElementById("username").innerText=name
-
-
-
-// VARIANT
-
-let variant=localStorage.getItem("variant")
-
-if(!variant){
-
-variant=Math.random()<0.5?"A":"B"
-
-localStorage.setItem("variant",variant)
+localStorage.setItem("username",username)
 
 }
 
-
-
-// VISITS
-
-let visits=JSON.parse(localStorage.getItem("visits")||'{"A":0,"B":0}')
-
-visits[variant]++
-
-localStorage.setItem("visits",JSON.stringify(visits))
+document.getElementById("username").innerText=username
 
 
 
 // CART
 
-document.getElementById("addCart").onclick=function(){
-
 let cart=JSON.parse(localStorage.getItem("cart")||"[]")
+
+document.getElementById("cartCount").innerText=cart.length
+
+document.getElementById("addCart").onclick=function(){
 
 cart.push("protein")
 
 localStorage.setItem("cart",JSON.stringify(cart))
 
-document.getElementById("cartCount").innerText=cart.length
-
-
-
-let conv=JSON.parse(localStorage.getItem("conv")||'{"A":0,"B":0}')
-
-conv[variant]++
-
-localStorage.setItem("conv",JSON.stringify(conv))
+window.location.href="cart.html"
 
 }
+
+
+
+// LUCKY EGG GAME
+
+let eggBtn=document.getElementById("playEggGame")
+let game=document.getElementById("eggGame")
+
+eggBtn.onclick=function(){
+
+game.classList.toggle("hidden")
+
+}
+
+let eggs=document.querySelectorAll(".egg")
+
+let chances=3
+
+eggs.forEach(egg=>{
+
+egg.onclick=function(){
+
+if(chances<=0)return
+
+chances--
+
+let win=Math.random()<0.4
+
+if(win){
+
+egg.innerHTML="🥚💪"
+
+let discount=12.5
+
+alert("You found the protein! "+discount+"% discount!")
+
+localStorage.setItem("discount",discount)
+
+updateLeaderboard(discount)
+
+location.reload()
+
+}else{
+
+egg.innerHTML="🥚❌"
+
+}
+
+}
+
+})
 
 
 
@@ -80,7 +101,35 @@ document.getElementById("discountTag").innerText=discount+"% GAME"
 
 // LEADERBOARD
 
-function updateLeaderboard(){
+function updateLeaderboard(discount){
+
+let board=JSON.parse(localStorage.getItem("leaderboard")||"[]")
+
+let name=localStorage.getItem("username")
+
+let existing=board.find(p=>p.name===name)
+
+if(existing){
+
+if(discount>existing.discount){
+
+existing.discount=discount
+
+}
+
+}else{
+
+board.push({name:name,discount:discount})
+
+}
+
+localStorage.setItem("leaderboard",JSON.stringify(board))
+
+renderLeaderboard()
+
+}
+
+function renderLeaderboard(){
 
 let data=JSON.parse(localStorage.getItem("leaderboard")||"[]")
 
@@ -91,11 +140,8 @@ let html=""
 data.forEach(p=>{
 
 html+=`<div class="player">
-
 <span>${p.name}</span>
-
 <span>${p.discount}%</span>
-
 </div>`
 
 })
@@ -104,16 +150,4 @@ document.getElementById("leaderboard").innerHTML=html
 
 }
 
-updateLeaderboard()
-
-
-
-// SCROLL TRACK
-
-window.addEventListener("scroll",()=>{
-
-let scroll=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100
-
-localStorage.setItem("scroll",scroll)
-
-})
+renderLeaderboard()
