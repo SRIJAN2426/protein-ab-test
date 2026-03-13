@@ -1,169 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Lucky Egg — FuelForge Game</title>
-  <link rel="stylesheet" href="style.css"/>
-  <style>
-    body{font-family:Inter,Arial,sans-serif;background:#111;color:#fff;margin:0;display:flex;flex-direction:column;align-items:center}
-    .game-wrap{max-width:720px;width:100%;padding:20px}
-    h1{margin-top:20px;font-size:26px;text-align:center}
-    .sub{color:#ddd;margin-bottom:8px;text-align:center}
-    #eggArea{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
-    .egg{background:linear-gradient(180deg,#fff,#f0f0f0);height:110px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;box-shadow:0 8px 24px rgba(0,0,0,0.35);transform-origin:center;transition:transform 0.25s}
-    .egg:hover{transform:translateY(-6px)}
-    .egg img{max-height:72px}
-    .attempts{margin-top:12px;color:#eee}
-    .controls{margin-top:18px;display:flex;gap:10px;justify-content:center}
-    .btn{background:var(--accent,#e53935);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
-    .result{margin-top:16px;color:#fff}
-    .crack{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);border-radius:12px;color:#fff;font-weight:700}
-    .small{font-size:14px;color:#ddd}
-    @media(max-width:520px){#eggArea{grid-template-columns:repeat(2,1fr)}.egg{height:95px}}
-  </style>
+
+<title>Lucky Egg</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+background:#111;
+color:white;
+text-align:center;
+}
+
+#eggArea{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+max-width:400px;
+margin:auto;
+margin-top:40px;
+}
+
+.egg{
+background:white;
+color:black;
+padding:30px;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="game-wrap">
-    <h1>Lucky Egg — Crack & Win</h1>
-    <div class="sub">You have <strong>3 attempts</strong> to crack eggs. If the cracked egg contains a protein pack, you win <strong>12.5%</strong> discount per win.</div>
-    <div id="eggArea"></div>
 
-    <div class="attempts" id="attemptsTxt">Attempts left: 3</div>
-    <div class="controls">
-      <button id="resetBtn" class="btn">Restart</button>
-      <button id="backBtn" class="btn" style="background:#444">Back to product</button>
-    </div>
+<h1>Lucky Egg</h1>
 
-    <div class="result" id="resultTxt"></div>
-    <div class="small" style="margin-top:8px">Leaderboard and your name are saved locally (demo).</div>
-  </div>
+<p>3 chances to crack 6 eggs</p>
 
-  <!-- Sounds -->
-  <audio id="soundCrack"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"></audio>
-  <audio id="soundWin"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c9a5c1e33.mp3"></audio>
+<div id="eggArea"></div>
 
 <script>
-  // Game variables
-  const eggArea = document.getElementById('eggArea');
-  const attemptsTxt = document.getElementById('attemptsTxt');
-  const resultTxt = document.getElementById('resultTxt');
-  const resetBtn = document.getElementById('resetBtn');
-  const backBtn = document.getElementById('backBtn');
-  const soundCrack = document.getElementById('soundCrack');
-  const soundWin = document.getElementById('soundWin');
 
-  let attempts = 3;
-  let wins = 0;
-  const eggsTotal = 6;
-  let winningSlots = []; // indices that contain protein
-  let opened = new Set();
+if(localStorage.getItem("game_played")==="true"){
 
-  function initGame() {
-    attempts = 3;
-    wins = 0;
-    opened.clear();
-    resultTxt.textContent = '';
-    // Choose winning slots: make 2 or 3 winners so users have chances
-    const possibleWinners = Math.random() < 0.6 ? 2 : 3; // sometimes 3 winners
-    winningSlots = [];
-    while (winningSlots.length < possibleWinners) {
-      const n = Math.floor(Math.random()*eggsTotal);
-      if (!winningSlots.includes(n)) winningSlots.push(n);
-    }
-    renderEggs();
-    updateAttempts();
-  }
+alert("You already played")
 
-  function renderEggs() {
-    eggArea.innerHTML = '';
-    for (let i=0;i<eggsTotal;i++){
-      const e = document.createElement('div');
-      e.className = 'egg';
-      e.dataset.index = i;
-      const img = document.createElement('img');
-      img.src = 'https://cdn-icons-png.flaticon.com/512/727/727399.png'; // egg icon placeholder
-      img.alt = 'egg';
-      e.appendChild(img);
-      e.onclick = onEggClick;
-      eggArea.appendChild(e);
-    }
-  }
+window.location.href="index.html"
 
-  function onEggClick(ev) {
-    const idx = Number(ev.currentTarget.dataset.index);
-    if (opened.has(idx)) return;
-    if (attempts <= 0) return;
-    opened.add(idx);
-    attempts--;
-    const isWin = winningSlots.includes(idx);
-    // crack animation - overlay with result
-    const overlay = document.createElement('div');
-    overlay.className = 'crack';
-    overlay.style.fontSize='14px';
-    overlay.innerText = 'Cracking...';
-    ev.currentTarget.appendChild(overlay);
-    // play sound
-    soundCrack && soundCrack.play();
-    // animate delay before reveal
-    setTimeout(()=> {
-      overlay.innerHTML = '';
-      if (isWin) {
-        const img = document.createElement('img');
-        img.src = 'protein.png'; // prize
-        img.style.maxHeight='72px';
-        overlay.appendChild(img);
-        overlay.style.background = 'rgba(0,128,0,0.85)';
-        wins++;
-        soundWin && soundWin.play();
-      } else {
-        overlay.textContent = 'Empty';
-        overlay.style.background = 'rgba(60,60,60,0.85)';
-      }
-      updateAttempts();
-      // if attempts over, finalize
-      if (attempts <= 0) {
-        endGame();
-      }
-    }, 700);
-  }
+}
 
-  function updateAttempts() {
-    attemptsTxt.textContent = `Attempts left: ${attempts}`;
-  }
+let attempts=3
+let wins=0
 
-  function endGame() {
-    const discountPerWin = 12.5;
-    const totalDiscount = Math.round(wins * discountPerWin * 10) / 10; // one decimal
-    // Save discount percentage to storage
-    if (totalDiscount > 0) {
-      localStorage.setItem('game_discount_pct', String(totalDiscount));
-      resultTxt.innerHTML = `<strong>Congrats!</strong> You cracked ${wins} winning egg(s). Discount: ${totalDiscount}% applied. Returning to product...`;
-    } else {
-      localStorage.setItem('game_discount_pct', '0');
-      resultTxt.innerHTML = `<strong>Try again.</strong> No winning eggs this run. Returning to product...`;
-    }
+let winners=[1,4]
 
-    // Save leaderboard entry
-    const name = localStorage.getItem('ff_name') || 'Guest';
-    const entry = { name, wins, discount: totalDiscount, date: new Date().toISOString() };
-    const lb = JSON.parse(localStorage.getItem('ff_leaderboard') || '[]');
-    lb.push(entry);
-    lb.sort((a,b) => (b.discount - a.discount) || (b.wins - a.wins) || (new Date(b.date) - new Date(a.date)));
-    localStorage.setItem('ff_leaderboard', JSON.stringify(lb.slice(0,10)));
+function createEggs(){
 
-    // small delay then return to index
-    setTimeout(()=> {
-      window.location.href = 'index.html';
-    }, 1400);
-  }
+let area=document.getElementById("eggArea")
 
-  // buttons
-  resetBtn.onclick = initGame;
-  backBtn.onclick = () => window.location.href='index.html';
+for(let i=0;i<6;i++){
 
-  // start
-  initGame();
+let egg=document.createElement("div")
+
+egg.className="egg"
+
+egg.innerText="🥚"
+
+egg.onclick=function(){
+
+if(attempts<=0)return
+
+attempts--
+
+if(winners.includes(i)){
+
+egg.innerHTML='<img src="protein.png" width="60">'
+
+wins++
+
+}else{
+
+egg.innerText="Empty"
+
+}
+
+if(attempts===0){
+
+finish()
+
+}
+
+}
+
+area.appendChild(egg)
+
+}
+
+}
+
+function finish(){
+
+localStorage.setItem("game_played","true")
+
+let discount=wins*12.5
+
+localStorage.setItem("game_discount_pct",discount)
+
+let name=localStorage.getItem("ff_name")
+
+let board=JSON.parse(localStorage.getItem("leaderboard")||"[]")
+
+board.push({name:name,wins:wins,discount:discount})
+
+localStorage.setItem("leaderboard",JSON.stringify(board))
+
+alert("You won "+discount+"% discount")
+
+window.location.href="index.html"
+
+}
+
+createEggs()
+
 </script>
+
 </body>
+
 </html>
