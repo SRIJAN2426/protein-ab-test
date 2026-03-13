@@ -1,37 +1,20 @@
 // USERNAME
 
-document.addEventListener("DOMContentLoaded",()=>{
-
-let name=localStorage.getItem("ff_name")
+let name=localStorage.getItem("username")
 
 if(!name){
 
-document.getElementById("usernameModal").classList.remove("hidden")
+name=prompt("Enter your name")
 
-}else{
-
-document.getElementById("accountBtn").innerHTML=
-`<i class="fa-regular fa-user"></i> ${name}`
+localStorage.setItem("username",name)
 
 }
 
-})
-
-document.getElementById("saveNameBtn").onclick=function(){
-
-let name=document.getElementById("usernameInput").value.trim()
-
-if(!name)return
-
-localStorage.setItem("ff_name",name)
-
-location.reload()
-
-}
+document.getElementById("username").innerText=name
 
 
 
-// A/B VARIANT
+// VARIANT
 
 let variant=localStorage.getItem("variant")
 
@@ -43,104 +26,53 @@ localStorage.setItem("variant",variant)
 
 }
 
-if(variant==="B"){
-
-document.getElementById("playGameBtn").classList.remove("hidden")
-
-}
 
 
+// VISITS
 
-// VISIT TRACKING
+let visits=JSON.parse(localStorage.getItem("visits")||'{"A":0,"B":0}')
 
-let stats=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
+visits[variant]++
 
-stats[variant]++
-
-localStorage.setItem("ab_stats",JSON.stringify(stats))
+localStorage.setItem("visits",JSON.stringify(visits))
 
 
 
 // CART
 
-function getCart(){
+document.getElementById("addCart").onclick=function(){
 
-return JSON.parse(localStorage.getItem("ff_cart")||"[]")
+let cart=JSON.parse(localStorage.getItem("cart")||"[]")
 
-}
+cart.push("protein")
 
-function updateCart(){
+localStorage.setItem("cart",JSON.stringify(cart))
 
-document.getElementById("cartCount").innerText=getCart().length
-
-}
-
-updateCart()
+document.getElementById("cartCount").innerText=cart.length
 
 
 
-document.getElementById("addToCartBtn").onclick=function(){
-
-let cart=getCart()
-
-cart.push({product:"FuelForge Protein",variant:variant})
-
-localStorage.setItem("ff_cart",JSON.stringify(cart))
-
-updateCart()
-
-let conv=JSON.parse(localStorage.getItem("ab_conv")||'{"A":0,"B":0}')
+let conv=JSON.parse(localStorage.getItem("conv")||'{"A":0,"B":0}')
 
 conv[variant]++
 
-localStorage.setItem("ab_conv",JSON.stringify(conv))
-
-alert("Added to demo cart")
+localStorage.setItem("conv",JSON.stringify(conv))
 
 }
-
-
-
-// SCROLL DEPTH TRACKING
-
-window.addEventListener("scroll",()=>{
-
-let scrollPercent=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100
-
-localStorage.setItem("scroll_depth",Math.max(scrollPercent,
-localStorage.getItem("scroll_depth")||0))
-
-})
-
-
-
-// CLICK HEATMAP
-
-document.addEventListener("click",(e)=>{
-
-let heatmap=JSON.parse(localStorage.getItem("heatmap")||"[]")
-
-heatmap.push({x:e.clientX,y:e.clientY})
-
-localStorage.setItem("heatmap",JSON.stringify(heatmap))
-
-})
 
 
 
 // DISCOUNT
 
-let discount=localStorage.getItem("game_discount_pct")
+let discount=localStorage.getItem("discount")
 
 if(discount){
 
-let price=2249
+let newPrice=Math.round(2249*(1-discount/100))
 
-let newPrice=Math.round(price*(1-discount/100))
+document.getElementById("price").innerText="₹"+newPrice
 
-document.getElementById("price").innerText=`₹${newPrice}`
-
-document.getElementById("discount").innerText=`${discount}% GAME DISCOUNT`
+document.getElementById("discountTag").innerText=discount+"% GAME"
 
 }
 
@@ -148,28 +80,40 @@ document.getElementById("discount").innerText=`${discount}% GAME DISCOUNT`
 
 // LEADERBOARD
 
-function renderLeaderboard(){
+function updateLeaderboard(){
 
 let data=JSON.parse(localStorage.getItem("leaderboard")||"[]")
 
 data.sort((a,b)=>b.discount-a.discount)
 
-const container=document.getElementById("leaderboardList")
+let html=""
 
-container.innerHTML=""
+data.forEach(p=>{
 
-data.slice(0,10).forEach(p=>{
+html+=`<div class="player">
 
-let row=document.createElement("div")
+<span>${p.name}</span>
 
-row.className="leaderboard-item"
+<span>${p.discount}%</span>
 
-row.innerHTML=`<span>${p.name}</span><span>${p.discount}%</span>`
-
-container.appendChild(row)
+</div>`
 
 })
 
+document.getElementById("leaderboard").innerHTML=html
+
 }
 
-renderLeaderboard()
+updateLeaderboard()
+
+
+
+// SCROLL TRACK
+
+window.addEventListener("scroll",()=>{
+
+let scroll=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100
+
+localStorage.setItem("scroll",scroll)
+
+})
