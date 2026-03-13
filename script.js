@@ -1,4 +1,4 @@
-// USER SYSTEM
+// USERNAME
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -51,27 +51,33 @@ document.getElementById("playGameBtn").classList.remove("hidden")
 
 
 
-// TRACK VISITS
+// VISIT TRACKING
 
-let analytics=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
+let stats=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
 
-analytics[variant]++
+stats[variant]++
 
-localStorage.setItem("ab_stats",JSON.stringify(analytics))
+localStorage.setItem("ab_stats",JSON.stringify(stats))
 
 
 
 // CART
 
 function getCart(){
+
 return JSON.parse(localStorage.getItem("ff_cart")||"[]")
+
 }
 
 function updateCart(){
+
 document.getElementById("cartCount").innerText=getCart().length
+
 }
 
 updateCart()
+
+
 
 document.getElementById("addToCartBtn").onclick=function(){
 
@@ -83,36 +89,42 @@ localStorage.setItem("ff_cart",JSON.stringify(cart))
 
 updateCart()
 
-// conversion tracking
 let conv=JSON.parse(localStorage.getItem("ab_conv")||'{"A":0,"B":0}')
+
 conv[variant]++
+
 localStorage.setItem("ab_conv",JSON.stringify(conv))
 
 alert("Added to demo cart")
 
 }
 
-document.getElementById("cartBtn").onclick=function(){
-window.location.href="cart.html"
-}
+
+
+// SCROLL DEPTH TRACKING
+
+window.addEventListener("scroll",()=>{
+
+let scrollPercent=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100
+
+localStorage.setItem("scroll_depth",Math.max(scrollPercent,
+localStorage.getItem("scroll_depth")||0))
+
+})
 
 
 
-// GAME
+// CLICK HEATMAP
 
-document.getElementById("playGameBtn").onclick=function(){
+document.addEventListener("click",(e)=>{
 
-if(localStorage.getItem("game_played")){
+let heatmap=JSON.parse(localStorage.getItem("heatmap")||"[]")
 
-alert("Game already played")
+heatmap.push({x:e.clientX,y:e.clientY})
 
-return
+localStorage.setItem("heatmap",JSON.stringify(heatmap))
 
-}
-
-window.location.href="game.html"
-
-}
+})
 
 
 
@@ -123,9 +135,11 @@ let discount=localStorage.getItem("game_discount_pct")
 if(discount){
 
 let price=2249
+
 let newPrice=Math.round(price*(1-discount/100))
 
 document.getElementById("price").innerText=`₹${newPrice}`
+
 document.getElementById("discount").innerText=`${discount}% GAME DISCOUNT`
 
 }
