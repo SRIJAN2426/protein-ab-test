@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -10,9 +9,6 @@
 
 <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 
 <body>
@@ -21,119 +17,112 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <div class="logo">FUELFORGE</div>
 
-<nav class="nav">
+<div class="nav">
 
 <button id="shopBtn">Shop</button>
 
-<div class="icons">
+<div class="nav-right">
 
-<button id="accountBtn">
-<i class="fa-regular fa-user"></i>
-</button>
+<span id="username"></span>
 
 <button id="cartBtn">
-<i class="fa-solid fa-bag-shopping"></i>
+🛒
 <span id="cartCount">0</span>
 </button>
 
 </div>
 
-</nav>
+</div>
 
 </header>
 
 
-<div class="urgency-bar">
+<div class="urgency">
 🔥 24 people bought this protein in the last hour
 </div>
 
 
+<section class="hero">
 
-<section class="product">
-
-<div class="product-left">
+<div class="hero-left">
 
 <h1>Chocolate Fermented Protein</h1>
 
-<div class="rating-row">
-<div class="stars">★★★★★</div>
-<span class="rating-score">4.8</span>
-<span class="rating-count">(1284 reviews)</span>
-</div>
+<div class="rating">
 
-<div class="price-row">
-
-<span id="price" class="new-price">₹2249</span>
-<span class="old-price">₹2899</span>
-<span id="discount" class="discount">22% OFF</span>
+★★★★★
+<span>4.8 (1284 reviews)</span>
 
 </div>
 
-<div class="discount-progress">
-<div id="discountBar" class="discount-bar"></div>
+<div class="price">
+
+<span id="price">₹2249</span>
+
+<span class="old">₹2899</span>
+
+<span id="discountTag">22% OFF</span>
+
 </div>
 
 <p>
 Advanced fermented protein engineered for digestion and recovery.
 </p>
 
-<div class="action-area">
+<div class="hero-buttons">
 
-<button id="addToCartBtn" class="cta">
-Add To Cart
-</button>
+<button id="addCart">Add To Cart</button>
 
-<button id="playGameBtn" class="cta secondary hidden">
-Play Lucky Egg
-</button>
+<button id="spinWheel">Spin Discount Wheel</button>
 
 </div>
 
 </div>
 
-<div class="product-right">
-<img src="protein.png" class="product-image">
+
+<div class="hero-right">
+
+<img src="protein.png" class="product-img">
+
 </div>
 
 </section>
 
 
-
 <section class="advantages">
 
-<h2 class="adv-title">THE SUPER ADVANTAGE</h2>
+<h2>THE SUPER ADVANTAGE</h2>
 
 <div class="adv-grid">
 
-<div class="adv-item">
-<div class="adv-icon">💪</div>
+<div class="adv">
+💪
 <p>24G PROTEIN</p>
 </div>
 
-<div class="adv-item">
-<div class="adv-icon">🚫</div>
+<div class="adv">
+🚫
 <p>NO ADDED SUGAR</p>
 </div>
 
-<div class="adv-item">
-<div class="adv-icon">🌱</div>
+<div class="adv">
+🌱
 <p>3G FIBER</p>
 </div>
 
-<div class="adv-item">
-<div class="adv-icon">🧬</div>
+<div class="adv">
+🧬
 <p>1/1 PDCAAS</p>
 </div>
 
-<div class="adv-item">
-<div class="adv-icon">👌</div>
+<div class="adv">
+👌
 <p>MADE TASTY</p>
 </div>
 
 </div>
 
 </section>
-
 
 
 <section class="reviews">
@@ -143,19 +132,19 @@ Play Lucky Egg
 <div class="review-grid">
 
 <div class="review">
-<div class="stars">★★★★★</div>
+★★★★★
 <p>Best protein I've used.</p>
 <b>Rahul</b>
 </div>
 
 <div class="review">
-<div class="stars">★★★★☆</div>
+★★★★☆
 <p>Very smooth digestion.</p>
 <b>Ananya</b>
 </div>
 
 <div class="review">
-<div class="stars">★★★★★</div>
+★★★★★
 <p>Great recovery results.</p>
 <b>Vikram</b>
 </div>
@@ -165,47 +154,17 @@ Play Lucky Egg
 </section>
 
 
-
-<section class="leaderboard-section">
+<section class="leaderboard">
 
 <h2>🏆 Top Players</h2>
 
-<div id="leaderboardList" class="leaderboard-card"></div>
+<div id="leaderboard"></div>
 
 </section>
 
 
-
-<div id="usernameModal" class="modal hidden">
-
-<div class="modal-box">
-
-<h3>Welcome</h3>
-
-<p>Enter your name</p>
-
-<input id="usernameInput">
-
-<button id="saveNameBtn">Continue</button>
-
-</div>
-
-</div>
-
-
-<div class="mobile-buy-bar">
-
-<div class="mobile-price">₹2249</div>
-
-<button id="mobileAddCart" class="mobile-buy">
-Add to Cart
-</button>
-
-</div>
-
-
 <script src="script.js"></script>
+<script src="wheel.js"></script>
 
 </body>
-
 </html>
