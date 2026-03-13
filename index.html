@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -42,6 +43,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 </header>
 
 
+<div class="urgency-bar">
+🔥 24 people bought this protein in the last hour
+</div>
+
+
 
 <section class="product">
 
@@ -49,16 +55,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <h1>Chocolate Fermented Protein</h1>
 
+<div class="rating-row">
+<div class="stars">★★★★★</div>
+<span class="rating-score">4.8</span>
+<span class="rating-count">(1284 reviews)</span>
+</div>
+
 <div class="price-row">
 
-<span class="new-price" id="price">₹2249</span>
+<span id="price" class="new-price">₹2249</span>
 <span class="old-price">₹2899</span>
-<span class="discount" id="discount">22% OFF</span>
+<span id="discount" class="discount">22% OFF</span>
 
 </div>
 
+<div class="discount-progress">
+<div id="discountBar" class="discount-bar"></div>
+</div>
+
 <p>
-Advanced fermented protein engineered for digestion, recovery and clean nutrition.
+Advanced fermented protein engineered for digestion and recovery.
 </p>
 
 <div class="action-area">
@@ -76,8 +92,43 @@ Play Lucky Egg
 </div>
 
 <div class="product-right">
-
 <img src="protein.png" class="product-image">
+</div>
+
+</section>
+
+
+
+<section class="advantages">
+
+<h2 class="adv-title">THE SUPER ADVANTAGE</h2>
+
+<div class="adv-grid">
+
+<div class="adv-item">
+<div class="adv-icon">💪</div>
+<p>24G PROTEIN</p>
+</div>
+
+<div class="adv-item">
+<div class="adv-icon">🚫</div>
+<p>NO ADDED SUGAR</p>
+</div>
+
+<div class="adv-item">
+<div class="adv-icon">🌱</div>
+<p>3G FIBER</p>
+</div>
+
+<div class="adv-item">
+<div class="adv-icon">🧬</div>
+<p>1/1 PDCAAS</p>
+</div>
+
+<div class="adv-item">
+<div class="adv-icon">👌</div>
+<p>MADE TASTY</p>
+</div>
 
 </div>
 
@@ -92,19 +143,19 @@ Play Lucky Egg
 <div class="review-grid">
 
 <div class="review">
-⭐ ⭐ ⭐ ⭐ ⭐  
+<div class="stars">★★★★★</div>
 <p>Best protein I've used.</p>
 <b>Rahul</b>
 </div>
 
 <div class="review">
-⭐ ⭐ ⭐ ⭐  
+<div class="stars">★★★★☆</div>
 <p>Very smooth digestion.</p>
 <b>Ananya</b>
 </div>
 
 <div class="review">
-⭐ ⭐ ⭐ ⭐ ⭐  
+<div class="stars">★★★★★</div>
 <p>Great recovery results.</p>
 <b>Vikram</b>
 </div>
@@ -141,7 +192,20 @@ Play Lucky Egg
 
 </div>
 
+
+<div class="mobile-buy-bar">
+
+<div class="mobile-price">₹2249</div>
+
+<button id="mobileAddCart" class="mobile-buy">
+Add to Cart
+</button>
+
+</div>
+
+
 <script src="script.js"></script>
 
 </body>
+
 </html>
