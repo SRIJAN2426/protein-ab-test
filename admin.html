@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A/B Test Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2 style="text-align:center">Experiment Analytics</h2>
+
+<div style="max-width:500px;margin:auto">
+
+<p id="visits"></p>
+<p id="conversions"></p>
+
+</div>
+
+<script>
+
+let visits=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
+let conv=JSON.parse(localStorage.getItem("ab_conv")||'{"A":0,"B":0}')
+
+document.getElementById("visits").innerText=
+`Visits A: ${visits.A} | Visits B: ${visits.B}`
+
+document.getElementById("conversions").innerText=
+`Conversions A: ${conv.A} | Conversions B: ${conv.B}`
+
+</script>
+
+</body>
+</html>
