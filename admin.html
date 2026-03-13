@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>A/B Test Dashboard</title>
+
+<title>Experiment Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<h2 style="text-align:center">Experiment Analytics</h2>
+<h2 style="text-align:center">A/B Test Analytics</h2>
 
-<div style="max-width:500px;margin:auto">
+<div style="max-width:600px;margin:auto">
 
 <p id="visits"></p>
 <p id="conversions"></p>
+<p id="scroll"></p>
 
 </div>
 
@@ -22,12 +27,16 @@ let visits=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
 let conv=JSON.parse(localStorage.getItem("ab_conv")||'{"A":0,"B":0}')
 
 document.getElementById("visits").innerText=
-`Visits A: ${visits.A} | Visits B: ${visits.B}`
+`Visits — A: ${visits.A} | B: ${visits.B}`
 
 document.getElementById("conversions").innerText=
-`Conversions A: ${conv.A} | Conversions B: ${conv.B}`
+`Conversions — A: ${conv.A} | B: ${conv.B}`
+
+document.getElementById("scroll").innerText=
+`Max Scroll Depth: ${localStorage.getItem("scroll_depth")||0}%`
 
 </script>
 
 </body>
+
 </html>
