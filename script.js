@@ -1,24 +1,21 @@
 // USER SYSTEM
 
-function initUser(){
+document.addEventListener("DOMContentLoaded",()=>{
 
 let name=localStorage.getItem("ff_name")
 
-if(name){
+if(!name){
+
+document.getElementById("usernameModal").classList.remove("hidden")
+
+}else{
 
 document.getElementById("accountBtn").innerHTML=
 `<i class="fa-regular fa-user"></i> ${name}`
 
-}else{
-
-document.getElementById("usernameModal").classList.remove("hidden")
-
 }
 
-}
-
-document.addEventListener("DOMContentLoaded",initUser)
-
+})
 
 document.getElementById("saveNameBtn").onclick=function(){
 
@@ -28,10 +25,7 @@ if(!name)return
 
 localStorage.setItem("ff_name",name)
 
-document.getElementById("accountBtn").innerHTML=
-`<i class="fa-regular fa-user"></i> ${name}`
-
-document.getElementById("usernameModal").classList.add("hidden")
+location.reload()
 
 }
 
@@ -57,6 +51,16 @@ document.getElementById("playGameBtn").classList.remove("hidden")
 
 
 
+// TRACK VISITS
+
+let analytics=JSON.parse(localStorage.getItem("ab_stats")||'{"A":0,"B":0}')
+
+analytics[variant]++
+
+localStorage.setItem("ab_stats",JSON.stringify(analytics))
+
+
+
 // CART
 
 function getCart(){
@@ -64,39 +68,43 @@ return JSON.parse(localStorage.getItem("ff_cart")||"[]")
 }
 
 function updateCart(){
-
 document.getElementById("cartCount").innerText=getCart().length
-
 }
 
 updateCart()
-
 
 document.getElementById("addToCartBtn").onclick=function(){
 
 let cart=getCart()
 
-cart.push({
-product:"FuelForge Protein"
-})
+cart.push({product:"FuelForge Protein",variant:variant})
 
 localStorage.setItem("ff_cart",JSON.stringify(cart))
 
 updateCart()
 
-alert("Added to demo cart.")
+// conversion tracking
+let conv=JSON.parse(localStorage.getItem("ab_conv")||'{"A":0,"B":0}')
+conv[variant]++
+localStorage.setItem("ab_conv",JSON.stringify(conv))
 
+alert("Added to demo cart")
+
+}
+
+document.getElementById("cartBtn").onclick=function(){
+window.location.href="cart.html"
 }
 
 
 
-// GAME BUTTON
+// GAME
 
 document.getElementById("playGameBtn").onclick=function(){
 
-if(localStorage.getItem("game_played")==="true"){
+if(localStorage.getItem("game_played")){
 
-alert("Game already played.")
+alert("Game already played")
 
 return
 
@@ -115,11 +123,9 @@ let discount=localStorage.getItem("game_discount_pct")
 if(discount){
 
 let price=2249
-
 let newPrice=Math.round(price*(1-discount/100))
 
 document.getElementById("price").innerText=`₹${newPrice}`
-
 document.getElementById("discount").innerText=`${discount}% GAME DISCOUNT`
 
 }
@@ -144,7 +150,7 @@ let row=document.createElement("div")
 
 row.className="leaderboard-item"
 
-row.innerHTML=`<div>${p.name}</div><div>${p.discount}%</div>`
+row.innerHTML=`<span>${p.name}</span><span>${p.discount}%</span>`
 
 container.appendChild(row)
 
