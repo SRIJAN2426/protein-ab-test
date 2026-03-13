@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <title>Lucky Egg</title>
@@ -19,7 +18,7 @@ text-align:center;
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:20px;
-max-width:420px;
+max-width:400px;
 margin:auto;
 margin-top:40px;
 }
@@ -29,12 +28,7 @@ background:white;
 padding:30px;
 border-radius:12px;
 cursor:pointer;
-font-size:30px;
-transition:0.2s;
-}
-
-.egg:hover{
-transform:scale(1.1);
+font-size:28px;
 }
 
 </style>
@@ -44,19 +38,15 @@ transform:scale(1.1);
 <body>
 
 <h1>Lucky Egg</h1>
-
-<p>Crack 6 eggs with 3 chances</p>
+<p>3 chances to crack 6 eggs</p>
 
 <div id="eggArea"></div>
 
 <script>
 
 if(localStorage.getItem("game_played")==="true"){
-
-alert("You already played this game.")
-
+alert("Game already played")
 window.location.href="index.html"
-
 }
 
 let attempts=3
@@ -67,7 +57,6 @@ let winners=[]
 while(winners.length<2){
 
 let r=Math.floor(Math.random()*6)
-
 if(!winners.includes(r)) winners.push(r)
 
 }
@@ -79,9 +68,7 @@ let area=document.getElementById("eggArea")
 for(let i=0;i<6;i++){
 
 let egg=document.createElement("div")
-
 egg.className="egg"
-
 egg.innerText="🥚"
 
 egg.onclick=function(){
@@ -93,22 +80,15 @@ attempts--
 if(winners.includes(i)){
 
 egg.innerHTML='<img src="protein.png" width="60">'
-
 wins++
 
 }else{
-
 egg.innerText="❌"
-
 }
 
 egg.style.pointerEvents="none"
 
-if(attempts===0){
-
-finish()
-
-}
+if(attempts===0)finish()
 
 }
 
@@ -126,7 +106,7 @@ let discount=wins*12.5
 
 localStorage.setItem("game_discount_pct",discount)
 
-let name=localStorage.getItem("ff_name")||"Guest"
+let name=localStorage.getItem("ff_name")
 
 let board=JSON.parse(localStorage.getItem("leaderboard")||"[]")
 
@@ -145,5 +125,4 @@ createEggs()
 </script>
 
 </body>
-
 </html>
