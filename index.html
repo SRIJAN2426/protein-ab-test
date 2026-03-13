@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -13,13 +14,14 @@
 
 <body>
 
+
 <header class="header">
 
 <div class="logo">FUELFORGE</div>
 
 <div class="nav">
 
-<button id="shopBtn">Shop</button>
+<button>Shop</button>
 
 <div class="nav-right">
 
@@ -42,6 +44,7 @@
 </div>
 
 
+
 <section class="hero">
 
 <div class="hero-left">
@@ -49,18 +52,14 @@
 <h1>Chocolate Fermented Protein</h1>
 
 <div class="rating">
-
 ★★★★★
 <span>4.8 (1284 reviews)</span>
-
 </div>
 
 <div class="price">
 
 <span id="price">₹2249</span>
-
 <span class="old">₹2899</span>
-
 <span id="discountTag">22% OFF</span>
 
 </div>
@@ -73,7 +72,9 @@ Advanced fermented protein engineered for digestion and recovery.
 
 <button id="addCart">Add To Cart</button>
 
-<button id="spinWheel">Spin Discount Wheel</button>
+<button id="playEggGame">
+Play Lucky Egg
+</button>
 
 </div>
 
@@ -89,69 +90,53 @@ Advanced fermented protein engineered for digestion and recovery.
 </section>
 
 
+
 <section class="advantages">
 
 <h2>THE SUPER ADVANTAGE</h2>
 
 <div class="adv-grid">
 
-<div class="adv">
-💪
-<p>24G PROTEIN</p>
-</div>
-
-<div class="adv">
-🚫
-<p>NO ADDED SUGAR</p>
-</div>
-
-<div class="adv">
-🌱
-<p>3G FIBER</p>
-</div>
-
-<div class="adv">
-🧬
-<p>1/1 PDCAAS</p>
-</div>
-
-<div class="adv">
-👌
-<p>MADE TASTY</p>
-</div>
+<div class="adv">💪 <p>24G PROTEIN</p></div>
+<div class="adv">🚫 <p>NO ADDED SUGAR</p></div>
+<div class="adv">🌱 <p>3G FIBER</p></div>
+<div class="adv">🧬 <p>1/1 PDCAAS</p></div>
+<div class="adv">👌 <p>MADE TASTY</p></div>
 
 </div>
 
 </section>
 
 
+
 <section class="reviews">
 
-<h2>Customer Reviews</h2>
+<h2 class="review-title">Customer Reviews</h2>
 
 <div class="review-grid">
 
 <div class="review">
 ★★★★★
 <p>Best protein I've used.</p>
-<b>Rahul</b>
+<span>Rahul</span>
 </div>
 
 <div class="review">
 ★★★★☆
 <p>Very smooth digestion.</p>
-<b>Ananya</b>
+<span>Ananya</span>
 </div>
 
 <div class="review">
 ★★★★★
 <p>Great recovery results.</p>
-<b>Vikram</b>
+<span>Vikram</span>
 </div>
 
 </div>
 
 </section>
+
 
 
 <section class="leaderboard">
@@ -163,8 +148,27 @@ Advanced fermented protein engineered for digestion and recovery.
 </section>
 
 
+
+<section id="eggGame" class="egg-container hidden">
+
+<h3>Crack an Egg (3 chances)</h3>
+
+<div class="egg-grid">
+
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+
+</div>
+
+</section>
+
+
+
 <script src="script.js"></script>
-<script src="wheel.js"></script>
 
 </body>
 </html>
