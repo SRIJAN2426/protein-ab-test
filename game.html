@@ -1,128 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Lucky Egg</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lucky Egg Game</title>
 
 <link rel="stylesheet" href="style.css">
 
 <style>
 
 body{
-background:#111;
-color:white;
 text-align:center;
+padding:60px;
 }
 
-#eggArea{
+.egg-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-max-width:400px;
-margin:auto;
+grid-template-columns:repeat(3,100px);
+gap:25px;
+justify-content:center;
 margin-top:40px;
 }
 
 .egg{
-background:white;
-padding:30px;
-border-radius:12px;
+font-size:50px;
 cursor:pointer;
-font-size:28px;
+transition:0.2s;
+}
+
+.egg:hover{
+transform:scale(1.2);
 }
 
 </style>
 
 </head>
 
+
 <body>
 
 <h1>Lucky Egg</h1>
-<p>3 chances to crack 6 eggs</p>
 
-<div id="eggArea"></div>
+<p>Crack an egg. You have 3 chances.</p>
+
+<div class="egg-grid">
+
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+<div class="egg">🥚</div>
+
+</div>
+
+<p id="chancesText">Chances left: 3</p>
 
 <script>
 
-if(localStorage.getItem("game_played")==="true"){
-alert("Game already played")
-window.location.href="index.html"
-}
+let eggs=document.querySelectorAll(".egg")
 
-let attempts=3
-let wins=0
+let chances=3
 
-let winners=[]
+let username=localStorage.getItem("username")
 
-while(winners.length<2){
-
-let r=Math.floor(Math.random()*6)
-if(!winners.includes(r)) winners.push(r)
-
-}
-
-function createEggs(){
-
-let area=document.getElementById("eggArea")
-
-for(let i=0;i<6;i++){
-
-let egg=document.createElement("div")
-egg.className="egg"
-egg.innerText="🥚"
-
-egg.onclick=function(){
-
-if(attempts<=0)return
-
-attempts--
-
-if(winners.includes(i)){
-
-egg.innerHTML='<img src="protein.png" width="60">'
-wins++
-
-}else{
-egg.innerText="❌"
-}
-
-egg.style.pointerEvents="none"
-
-if(attempts===0)finish()
-
-}
-
-area.appendChild(egg)
-
-}
-
-}
-
-function finish(){
-
-localStorage.setItem("game_played","true")
-
-let discount=wins*12.5
-
-localStorage.setItem("game_discount_pct",discount)
-
-let name=localStorage.getItem("ff_name")
+function updateLeaderboard(discount){
 
 let board=JSON.parse(localStorage.getItem("leaderboard")||"[]")
 
-board.push({name:name,wins:wins,discount:discount})
+let existing=board.find(p=>p.name===username)
 
-localStorage.setItem("leaderboard",JSON.stringify(board))
+if(existing){
 
-alert(`You won ${discount}% discount`)
+if(discount>existing.discount){
+existing.discount=discount
+}
 
-window.location.href="index.html"
+}else{
+
+board.push({
+name:username,
+discount:discount
+})
 
 }
 
-createEggs()
+localStorage.setItem("leaderboard",JSON.stringify(board))
+
+}
+
+
+eggs.forEach(egg=>{
+
+egg.onclick=function(){
+
+if(chances<=0) return
+
+chances--
+
+document.getElementById("chancesText").innerText="Chances left: "+chances
+
+let win=Math.random()<0.4
+
+if(win){
+
+egg.innerHTML="🥚💪"
+
+let discount=12.5
+
+alert("You found the protein! "+discount+"% discount!")
+
+localStorage.setItem("discount",discount)
+
+updateLeaderboard(discount)
+
+setTimeout(()=>{
+
+window.location.href="index.html"
+
+},1500)
+
+}else{
+
+egg.innerHTML="🥚❌"
+
+}
+
+}
+
+})
 
 </script>
 
 </body>
+
 </html>
