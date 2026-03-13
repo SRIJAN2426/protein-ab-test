@@ -1,41 +1,134 @@
-body{
-font-family:Arial;
+/* GLOBAL */
+
+*{
+box-sizing:border-box;
 margin:0;
-background:#fafafa;
+padding:0;
 }
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f6f6f6;
+color:#222;
+line-height:1.5;
+}
+
+section{
+padding:80px 20px;
+}
+
+/* HEADER */
 
 .header{
 display:flex;
 justify-content:space-between;
-padding:20px;
+align-items:center;
+padding:18px 40px;
 background:white;
 border-bottom:1px solid #eee;
+position:sticky;
+top:0;
+z-index:100;
 }
 
 .logo{
-color:#ff3b2f;
-font-weight:bold;
+font-weight:800;
 font-size:22px;
+color:#ff3c2f;
+letter-spacing:1px;
 }
 
 .nav{
 display:flex;
-gap:20px;
+gap:25px;
 align-items:center;
 }
 
+.nav button{
+padding:8px 14px;
+border-radius:6px;
+border:1px solid #ddd;
+background:white;
+cursor:pointer;
+}
+
+/* URGENCY BAR */
+
+.urgency{
+background:#ffe7e4;
+color:#e23c2d;
+text-align:center;
+padding:10px;
+font-weight:600;
+}
+
+/* HERO */
+
 .hero{
-display:flex;
-gap:60px;
-max-width:1100px;
+max-width:1200px;
 margin:auto;
-padding:80px 20px;
+display:flex;
 align-items:center;
+justify-content:center;
+gap:80px;
 flex-wrap:wrap;
 }
 
+.hero-left{
+max-width:500px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.rating{
+margin-bottom:10px;
+font-size:18px;
+}
+
+.price{
+margin:20px 0;
+font-size:26px;
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.old{
+text-decoration:line-through;
+color:#888;
+}
+
+.hero-buttons{
+margin-top:20px;
+}
+
+.hero-buttons button{
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#ff3c2f;
+color:white;
+font-size:15px;
+cursor:pointer;
+margin-right:10px;
+transition:.25s;
+}
+
+.hero-buttons button:hover{
+transform:translateY(-2px);
+}
+
+.hero-buttons button:nth-child(2){
+background:#333;
+}
+
+/* PRODUCT IMAGE */
+
 .product-img{
-width:350px;
+width:340px;
 animation:float 4s ease-in-out infinite;
 }
 
@@ -47,61 +140,54 @@ animation:float 4s ease-in-out infinite;
 
 }
 
-.price{
-margin:20px 0;
-font-size:24px;
-}
-
-.old{
-text-decoration:line-through;
-color:#999;
-margin-left:10px;
-}
-
-.urgency{
-background:#ffe5e0;
-padding:10px;
-text-align:center;
-color:#d92c2c;
-}
-
-.hero-buttons button{
-padding:12px 18px;
-margin-right:10px;
-border:none;
-background:#ff3b2f;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-.hero-buttons button:nth-child(2){
-background:#333;
-}
+/* ADVANTAGES */
 
 .advantages{
 text-align:center;
-padding:80px 20px;
+background:white;
+}
+
+.advantages h2{
+font-size:36px;
+margin-bottom:50px;
+color:#ff3c2f;
 }
 
 .adv-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
 gap:30px;
 max-width:900px;
 margin:auto;
 }
 
 .adv{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+background:#fff;
+padding:25px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+font-weight:600;
+transition:.25s;
+}
+
+.adv:hover{
+transform:translateY(-5px);
+}
+
+/* REVIEWS */
+
+.reviews{
+text-align:center;
+}
+
+.reviews h2{
+margin-bottom:40px;
+font-size:30px;
 }
 
 .review-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:30px;
 max-width:900px;
 margin:auto;
@@ -109,13 +195,19 @@ margin:auto;
 
 .review{
 background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+padding:25px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+transition:.25s;
 }
 
+.review:hover{
+transform:translateY(-5px);
+}
+
+/* LEADERBOARD */
+
 .leaderboard{
-padding:80px 20px;
 text-align:center;
 }
 
@@ -123,13 +215,42 @@ text-align:center;
 max-width:500px;
 margin:auto;
 background:white;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
+padding:15px;
 }
 
 .player{
 display:flex;
 justify-content:space-between;
-padding:12px;
+padding:12px 15px;
 border-bottom:1px solid #eee;
+font-weight:500;
+}
+
+.player:last-child{
+border:none;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-left{
+max-width:100%;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+.product-img{
+width:260px;
+}
+
 }
