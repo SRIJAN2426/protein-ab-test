@@ -1,49 +1,29 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Demo Cart — FuelForge</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .cart-wrap{max-width:900px;margin:30px auto;padding:18px;background:#fff;border-radius:8px}
-    .note{background:#fff3cd;padding:12px;border-radius:6px;color:#856404;margin-bottom:10px}
-    .item{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #eee}
-    .empty{padding:20px;text-align:center;color:#666}
-    .btn{background:var(--accent);color:#fff;padding:10px 12px;border:none;border-radius:6px;cursor:pointer}
-  </style>
+
+<title>Cart</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-  <div class="container">
-    <div class="cart-wrap">
-      <h2>Demo Cart</h2>
-      <div class="note">
-        This is a <strong>demo/test</strong> environment. No real orders are processed here. Use the Add to cart button to simulate conversions for the experiment.
-      </div>
 
-      <div id="items"></div>
-      <div style="margin-top:14px">
-        <button class="btn" id="clearCart">Clear Cart</button>
-        <button class="btn" id="backBtn" style="background:#444;margin-left:8px">Back</button>
-      </div>
-    </div>
-  </div>
+<h2 style="text-align:center;margin-top:40px">
 
-<script>
-  function renderCart() {
-    const items = JSON.parse(localStorage.getItem('ff_cart')||'[]');
-    const itemsEl = document.getElementById('items');
-    if (!items || items.length === 0) { itemsEl.innerHTML = '<div class="empty">Cart is empty</div>'; return; }
-    itemsEl.innerHTML = '';
-    items.forEach(i=>{
-      const d = document.createElement('div'); d.className = 'item';
-      d.innerHTML = `<div><strong>${i.title}</strong><div class="small">variant: ${i.variant} • discount: ${i.discountPct}%</div></div><div>${i.price_label}</div>`;
-      itemsEl.appendChild(d);
-    });
-  }
-  document.getElementById('clearCart').onclick = () => { localStorage.removeItem('ff_cart'); renderCart(); };
-  document.getElementById('backBtn').onclick = () => window.location.href = 'index.html';
-  renderCart();
-</script>
+Demo Cart
+
+</h2>
+
+<p style="text-align:center">
+
+This is a test purchase flow for the experiment.
+
+</p>
+
 </body>
+
 </html>
