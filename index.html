@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FuelForge Protein Experiment</title>
+<title>FuelForge Experiment</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -20,15 +20,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <div class="logo">FUELFORGE</div>
 
-<div class="nav">
+<nav class="nav">
 
-<button id="shopAllBtn">Shop All</button>
+<button id="shopBtn">Shop</button>
 
 <div class="icons">
 
-<button id="accountBtn">
-<i class="fa-regular fa-user"></i>
-</button>
+<button id="accountBtn"><i class="fa-regular fa-user"></i></button>
 
 <button id="cartBtn">
 <i class="fa-solid fa-bag-shopping"></i>
@@ -37,7 +35,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 </div>
 
-</div>
+</nav>
 
 </header>
 
@@ -51,15 +49,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <div class="price-row">
 
 <span class="new-price" id="price">₹2249</span>
-
 <span class="old-price">₹2899</span>
-
 <span class="discount" id="discount">22% OFF</span>
 
 </div>
 
-<p>
-Clean fermented protein designed for better digestion and daily performance.
+<p class="desc">
+Clean fermented protein engineered for digestion and recovery.
 </p>
 
 <div class="action-area">
@@ -68,23 +64,19 @@ Clean fermented protein designed for better digestion and daily performance.
 Add To Cart
 </button>
 
-<button id="playGameBtn" class="cta secondary">
-Play Lucky Egg (3 chances)
+<button id="playGameBtn" class="cta secondary hidden">
+Play Lucky Egg Game
 </button>
 
 </div>
 
 </div>
 
-
 <div class="product-right">
-
 <img src="protein.png" class="product-image">
-
 </div>
 
 </section>
-
 
 
 <section class="leaderboard-section">
@@ -102,16 +94,15 @@ Play Lucky Egg (3 chances)
 
 <h3>Welcome</h3>
 
-<p>Enter a display name for the leaderboard</p>
+<p>Enter your display name</p>
 
-<input id="usernameInput" placeholder="Your name">
+<input id="usernameInput">
 
 <button id="saveNameBtn">Save</button>
 
 </div>
 
 </div>
-
 
 <script src="script.js"></script>
 
